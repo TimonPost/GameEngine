@@ -10,6 +10,11 @@ workspace "engine"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["glfw"] = "engine/vendor/glfw/include"
+
+include "engine/vendor/glfw"
+
 project "engine"
     location "engine"
     kind "SharedLib"
@@ -27,8 +32,14 @@ project "engine"
     }
 
     includedirs {
+        "%{prj.name}/src",
         "%{prj.name}/vendor/spdlog/include",
-        "%{prj.name}/src"
+        "%{IncludeDir.glfw}"
+    }
+    
+    links {
+        "GLFW",
+        "opgengl32.lib"
     }
 
     filter "system:windows"
