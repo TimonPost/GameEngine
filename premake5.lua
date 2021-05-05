@@ -38,8 +38,8 @@ project "engine"
     }
     
     links {
-        "GLFW",
-        "opgengl32.lib"
+        "glfw",
+        "opengl32.lib"
     }
 
     filter "system:windows"
@@ -49,7 +49,8 @@ project "engine"
 
         defines {
             "ENGINE_PLATFORM_WINDOWS",
-            "ENGINE_BUILD_DLL"
+            "ENGINE_BUILD_DLL",
+            "ENGINE_ENABLE_ASSERTS"
         }
 
         postbuildcommands 
