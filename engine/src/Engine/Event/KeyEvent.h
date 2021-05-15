@@ -18,6 +18,10 @@ namespace Engine
 		int GetKeyCode() const { return m_KeyCode; }
 
 		virtual int GetCategoryFlags() const override { return EventCategoryKeyboard | EventCategoryInput; }
+
+		static EventType GetStaticType() { return EventType::KeyTyped; }
+		virtual EventType GetEventType() const override { return GetStaticType(); }
+		virtual const char* GetName() const override { return"KeyTyped"; }
 	};
 
 	class ENGINE_API KeyPressedEvent : public KeyEvent

@@ -1,6 +1,7 @@
 #pragma once
 #include "epch.h"
 #include "Engine/Window.h"
+#include "Engine/Renderer/GraphicsContext.h"
 #include "Engine/Log.h"
 #include "GLFW/glfw3.h"
 
@@ -21,13 +22,17 @@ namespace Engine {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-
+		void* GetNativeWindow() const override
+		{
+			return _window;
+		}
 	private:
+		
 		virtual void Init(const WindowProps&);
 		virtual void Shutdown();
-		private:
-			GLFWwindow* _window{};
-
+		GLFWwindow* _window;
+		GraphicsContext* _context;
+		
 		struct WindowData
 		{
 			std::string Title;
