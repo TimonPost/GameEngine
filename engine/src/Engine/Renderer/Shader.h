@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Engine/Core/Core.h"
 #include "glm/fwd.hpp"
 #include "glm/vec3.hpp"
 #include "glm/vec3.hpp"
@@ -22,39 +23,39 @@ namespace Engine {
 	/// <summary>
 	/// Abstraction over an opgengl shader.
 	/// </summary>
-	class Shader final 
-	{
-		unsigned int _registerId;
-		std::string _filePath;
-		std::unordered_map<std::string, int> uniformLocationCache;
-
-		static unsigned int CreateShader(const std::string& vertexShader, const std::string& fragmentShader);
-		static unsigned int CompileShader(unsigned int type, const std::string& source);
-		shader_program_source ParseShader(const std::string& filePath) const;
+	class Shader
+	{	
+		virtual shader_program_source ParseShader(const std::string& filePath) const = 0;
 
 	public:
-		std::string Label;
+		virtual ~Shader() = default;
+		
+		static Ref<Shader> Create(const std::string& filePath, const std::string& name = "");
 
-		Shader(const std::string& filePath, std::string label);
-		~Shader();
+		virtual const std::string& GetName() const = 0;
+		
+		virtual void  Bind() const = 0;
+		virtual void Unbind() const = 0;
 
-		void Bind() const;
-		void Unbind() const;
+		virtual void SetMat4(const std::string& name, const glm::mat4 value) = 0;
+		virtual void SetFloat3(const std::string& name, const glm::vec3 value) = 0;
+		virtual void SetFloat4(const std::string& name, const glm::vec4 value) = 0;
 
-		/// <summary>
-		/// Returns the shader path.
-		/// </summary>
-		/// <returns></returns>
-		std::string Path() const;
+		virtual void SetFloat(const char* str, float value) = 0;
+		virtual void SetInt(const std::string& name, int i) = 0;
+		
+	};
 
-		// Set uniforms
-		void SetUniform4f(const std::string& name, float v0, float v1, float f2, float f3);
-		void SetUniform1f(const std::string& name, float value);
-		void SetUniform1i(const std::string& name, int value);
-		void SetUniform3fv(const std::string& name, glm::vec3 value);
-		void SetUniformMatrix4fv(const std::string& name, glm::mat4 value);
-		int GetUniformLocation(const std::string& name);
-		int GetAttributeLocation(const std::string& name) const;
+	class ShaderLibrary
+	{
+	public:
+		void Add(const Ref<Shader>& s);
+		Ref<Shader> Load(const std::string& filePath);
+		Ref<Shader> Load(const std::string& name, const std::string& filePath);
 
+		Ref<Shader> Get(const std::string& name);
+		bool Exists(const std::string& name) const;
+	private:
+		std::unordered_map<std::string, Ref<Shader>> _shaders;
 	};
 }

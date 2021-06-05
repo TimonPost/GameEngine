@@ -6,15 +6,17 @@
 
 namespace  Engine
 {
-	VertexArray* VertexArray::Create(float* vertices, uint32_t size)
+	Ref<VertexArray> VertexArray::Create()
 	{
-		switch (Engine::Renderer::RenderAPI)
+		switch (Renderer::GetAPI())
 		{
-		case Engine::RendererAPI::None:
+		case RendererAPI::API::None:
 			ENGINE_CORE_ASSERT(false, "No render api configured");
 			break;
-		case Engine::RendererAPI::OpenGL:
-			return new Engine::OpenGLVertexArray();
+		case RendererAPI::API::OpenGL:
+			return std::make_shared<OpenGLVertexArray>();
 		}
+
+		return nullptr;
 	}
 }

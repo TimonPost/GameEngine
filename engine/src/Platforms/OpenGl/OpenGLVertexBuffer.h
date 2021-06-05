@@ -12,7 +12,8 @@ namespace Engine
 
 		void SetBufferLayout(const VertexBufferLayout& layout) override { _layout = layout; }
 		const VertexBufferLayout& GetLayout() const override { return _layout; }
-
+		
+		
 		~OpenGLVertexBuffer() override;
 	private:
 		unsigned int _registerId = -1;

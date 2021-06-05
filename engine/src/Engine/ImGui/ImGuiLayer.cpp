@@ -3,7 +3,7 @@
 
 #include <imgui.h>
 
-#include "Engine/Application.h"
+#include "Engine/Core/Application.h"
 #include "glad/glad.h"
 #include "GLFW/glfw3.h"
 
@@ -18,6 +18,8 @@ namespace Engine {
 
 	void ImGuiLayer::OnAttach()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		IMGUI_CHECKVERSION();
 		ImGui::CreateContext();
 		ImGuiIO& io = ImGui::GetIO(); (void)io;
@@ -43,6 +45,8 @@ namespace Engine {
 
 	void ImGuiLayer::OnDetach()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		ImGui_ImplOpenGL3_Shutdown();
 		ImGui_ImplGlfw_Shutdown();
 		ImGui::DestroyContext();
@@ -50,12 +54,16 @@ namespace Engine {
 
 	void ImGuiLayer::OnImGuiRender()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		static bool show = true;
 		ImGui::ShowDemoWindow(&show);
 	}
 
 	void ImGuiLayer::Begin()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
@@ -63,6 +71,8 @@ namespace Engine {
 
 	void ImGuiLayer::End()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		Application& application = Application::Instance();
 		auto& window = application.GetWindow();
 

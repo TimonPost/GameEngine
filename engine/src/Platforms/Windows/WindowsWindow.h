@@ -1,8 +1,8 @@
 #pragma once
 #include "epch.h"
-#include "Engine/Window.h"
+#include "Engine/Core/Window.h"
 #include "Engine/Renderer/GraphicsContext.h"
-#include "Engine/Log.h"
+#include "Engine/Core/Log.h"
 #include "GLFW/glfw3.h"
 
 namespace Engine {

@@ -1,14 +1,14 @@
 #pragma once
 
-#include "Engine/Layer.h"
-#include "Engine/Log.h"
+#include "Engine/Core/Layer.h"
+#include "Engine/Core/Log.h"
 #include "Engine/Event/Application.h"
 #include "Engine/Event/KeyEvent.h"
 #include "Engine/Event/MouseEvent.h"
 
 namespace Engine 
 {
-	class ENGINE_API ImGuiLayer : public Layer
+	class ImGuiLayer : public Layer
 	{
 	public:
 		ImGuiLayer();
@@ -19,7 +19,7 @@ namespace Engine
 
 		void Begin();
 		void End();
-		void OnUpdate() override {};
+		void OnUpdate(Timestep timeStep) override {};
 		void OnEvent(Event& event) override {} ;
 		float _time;
 	};

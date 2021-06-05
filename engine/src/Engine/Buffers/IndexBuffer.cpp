@@ -1,23 +1,19 @@
 #include "epch.h"
 #include "IndexBuffer.h"
-
-#include "epch.h"
-
-#include "Engine/Core.h"
-#include "Engine/Log.h"
-#include "Engine/Renderer/Renderer.h"
 #include "Platforms/OpenGl/OpenGLIndexBuffer.h"
+#include "Engine/Renderer/Renderer.h"
+
 
 namespace Engine {
-	IndexBuffer* IndexBuffer::Create(unsigned int* indicies, uint32_t size)
+	Ref<IndexBuffer> IndexBuffer::Create(unsigned int* indicies, uint32_t size)
 	{
-		switch (Renderer::RenderAPI)
+		switch (Renderer::GetAPI())
 		{
-		case RendererAPI::None:
+		case RendererAPI::API::None:
 			ENGINE_CORE_ASSERT(false, "No render api configured");
 			break;
-		case RendererAPI::OpenGL:
-			return new OpenGLIndexBuffer(indicies, size);
+		case RendererAPI::API::OpenGL:
+			return std::make_shared<OpenGLIndexBuffer>(indicies, size);
 		}
 
 		return nullptr;

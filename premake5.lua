@@ -15,6 +15,7 @@ IncludeDir["glfw"] = "engine/vendor/glfw/include"
 IncludeDir["glad"] = "engine/vendor/glad/include"
 IncludeDir["imgui"] = "engine/vendor/imgui"
 IncludeDir["glm"] = "engine/vendor/glm"
+IncludeDir["stb_image"] = "engine/vendor/stb_image"
 
 include "engine/vendor/glfw_premake5.lua"
 include "engine/vendor/glad_premake5.lua"
@@ -37,6 +38,9 @@ project "engine"
     files {
         "%{prj.name}/src/**.h",
         "%{prj.name}/src/**.cpp",
+        "%{prj.name}/vendor/stb_image/**.cpp",
+        "%{prj.name}/vendor/stb_image/**.h",
+
         "%{prj.name}/vendor/glm/glm/**.hpp",
         "%{prj.name}/vendor/glm/glm/**.inl"        
     }
@@ -51,7 +55,8 @@ project "engine"
         "%{IncludeDir.glfw}",
         "%{IncludeDir.glad}",
         "%{IncludeDir.imgui}",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
+        "%{IncludeDir.stb_image}"
     }
     
     links {
@@ -102,7 +107,7 @@ project "Sandbox"
     includedirs {
         "engine/vendor/spdlog/include",
         "engine/src",
-        "%{IncludeDir.glm}"
+        "%{IncludeDir.glm}",
     }
 
     links {
@@ -129,4 +134,50 @@ project "Sandbox"
         defines "ENGINE_Dist"
         optimize "on"
         runtime "Release"
-        
+
+project "engine-editor"       
+        location "engine-editor"
+        kind "ConsoleApp"
+        language "c++"
+        staticruntime "on"
+        cppdialect "c++17"
+    
+        targetdir("bin/" .. outputdir .. "/%{prj.name}")
+        objdir("bin-int/" .. outputdir .. "/%{prj.name}")
+    
+        files {
+            "%{prj.name}/src/**.h",
+            "%{prj.name}/src/**.cpp",
+        }
+    
+        includedirs {
+            "engine/vendor/spdlog/include",
+            "engine/src",
+            "%{IncludeDir.glm}",
+        }
+    
+        links {
+            "engine"
+        }
+    
+        filter "system:windows"
+          
+            systemversion "latest"
+    
+            defines {
+                "ENGINE_PLATFORM_WINDOWS",
+            }
+    
+        filter "configurations:Debug" 
+            defines "ENGINE_DEBUG"
+            symbols "on"
+            runtime "Debug"
+        filter "configurations:Release" 
+            defines "ENGINE_RELEASE"
+            optimize "on"
+            runtime "Release"
+        filter "configurations:Dist" 
+            defines "ENGINE_Dist"
+            optimize "on"
+            runtime "Release"
+                   

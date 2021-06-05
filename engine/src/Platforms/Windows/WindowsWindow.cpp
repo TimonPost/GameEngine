@@ -1,13 +1,15 @@
 #include "epch.h"
 #include "WindowsWindow.h"
 
-#include "Engine/Core.h"
+#include "Engine/Core/Core.h"
 #include "Engine/Event/Event.h"
 #include "Engine/Event/MouseEvent.h"
 #include "Engine/Event/KeyEvent.h"
 #include "Engine/Event/Application.h"
 
 #include "Platforms/OpenGl/OpenGLContext.h"
+
+#include "Engine/Debug/Instrumentor.h"
 
 namespace Engine
 {
@@ -26,16 +28,22 @@ namespace Engine
 
 	WindowsWindow::WindowsWindow(const WindowProps& props)
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		Init(props);
 	}
 
 	WindowsWindow::~WindowsWindow()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		Shutdown();
 	}
 
 	void WindowsWindow::Init(const WindowProps& props)
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		_data.Width = props.Width;
 		_data.Height = props.Height;
 		_data.Title = props.Title;
@@ -44,15 +52,23 @@ namespace Engine
 
 		if (!glfwInitialized)
 		{
-			int success = glfwInit();
+			int success;
+			{
+				ENGINE_PROFILE_SCOPE("glfwInit")
+				success = glfwInit();
+			}
+			
 			ENGINE_CORE_ASSERT(success, "Could not initialize GLFW!");
 			glfwSetErrorCallback(glfwErrorCallback);
 			glfwInitialized = true;
 		}
 
-		/* Create a windowed mode window and its OpenGL context */
-		_window = glfwCreateWindow(_data.Width, _data.Height, _data.Title.c_str(), nullptr, nullptr);
-
+		{
+			ENGINE_PROFILE_SCOPE("glfwCreateWindow")
+			/* Create a windowed mode window and its OpenGL context */
+			_window = glfwCreateWindow(_data.Width, _data.Height, _data.Title.c_str(), nullptr, nullptr);
+		}
+		
 		_context = new OpenGLContext(_window);
 		_context->Init();
 		
@@ -184,6 +200,8 @@ namespace Engine
 		
 	void WindowsWindow::SetVSync(bool enabled)
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		if (enabled)
 			glfwSwapInterval(1);
 		else
@@ -194,11 +212,15 @@ namespace Engine
 
 	void WindowsWindow::Shutdown()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		glfwDestroyWindow(_window);
 	}
 
 	void WindowsWindow::OnUpdate()
 	{
+		ENGINE_PROFILE_FUNCTION();
+		
 		glfwPollEvents();
 		_context->SwapBuffers();
 		

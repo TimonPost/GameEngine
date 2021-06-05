@@ -1,12 +1,12 @@
 #pragma once
 #include "epch.h"
-#include "../Core.h"
+#include "Engine/Core/Core.h"
 #include "Event.h"
 
 
 namespace Engine
 {
-	class ENGINE_API KeyEvent : public Event
+	class  KeyEvent : public Event
 	{
 	protected:
 		KeyEvent(const int keycode)
@@ -24,7 +24,7 @@ namespace Engine
 		virtual const char* GetName() const override { return"KeyTyped"; }
 	};
 
-	class ENGINE_API KeyPressedEvent : public KeyEvent
+	class KeyPressedEvent : public KeyEvent
 	{
 	public:
 		KeyPressedEvent(const int keycode, const uint16_t repeatCount)
@@ -47,7 +47,7 @@ namespace Engine
 		uint16_t m_RepeatCount;
 	};
 
-	class ENGINE_API KeyReleasedEvent : public KeyEvent
+	class  KeyReleasedEvent : public KeyEvent
 	{
 	public:
 		KeyReleasedEvent(const int keycode)
@@ -65,7 +65,7 @@ namespace Engine
 		virtual const char* GetName() const override { return"KeyReleased"; }
 	};
 
-	class ENGINE_API KeyTypedEvent : public KeyEvent
+	class  KeyTypedEvent : public KeyEvent
 	{
 	public:
 		KeyTypedEvent(const int keycode)

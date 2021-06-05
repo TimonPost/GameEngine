@@ -11,10 +11,11 @@ namespace Engine
 
 	public:
 		OpenGLIndexBuffer(const unsigned int* data, unsigned int count);
-		void Bind() const override;
-		void Unbind() const override;
+				
 		unsigned int GetCount() const override { return _count; }
 		~OpenGLIndexBuffer() override;
+		void Bind() override;
+		void Unbind() override;
 	};
 }
 

@@ -1,8 +1,7 @@
 #pragma once
 
-#include "Engine/Core.h"
-#include "Engine/Log.h"
-#include "glad/glad.h"
+#include "Engine/Core/Core.h"
+#include "Engine/Core/Log.h"
 
 namespace Engine {
 	enum class ShaderDataType {
@@ -45,7 +44,7 @@ namespace Engine {
 		{
 		}
 
-		unsigned int GetElementCount()
+		unsigned int GetElementCount() const
 		{
 			switch (Type)
 			{
@@ -104,8 +103,6 @@ namespace Engine {
 				offset += element.Size;
 				_stride += element.Size;
 			}
-		}
-
-	
+		}	
 	};
 }

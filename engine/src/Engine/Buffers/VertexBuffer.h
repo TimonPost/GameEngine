@@ -8,15 +8,13 @@ namespace Engine {
 	class VertexBuffer
 	{
 	public:
-		VertexBuffer() {}
-
-		VertexBuffer* Create(float* vertices, uint32_t size);
-		virtual void Bind() const;
-		virtual void Unbind() const;
+		static Ref<VertexBuffer> Create(float* vertices, uint32_t size);
+		virtual void Bind() const = 0;
+		virtual void Unbind() const = 0;
 
 		virtual void SetBufferLayout(const VertexBufferLayout& layout) = 0;
 		virtual const VertexBufferLayout& GetLayout() const = 0;
 
-		virtual virtual ~VertexBuffer();
+		virtual ~VertexBuffer() {}
 	};
 }
